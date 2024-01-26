@@ -6,11 +6,28 @@ export default {
     data() {
         return {
             todoArray: [],
+            newTask: "",
         };
+    },
+    methods: {
+        pushTask() {
+            
+            // console.log("ciao  " + this.newTask);
+            const params = {
+                text: this.newTask
+            };
+
+            axios.get('http://localhost/php-todo-list-json/Back/pushTask.php', params)
+                .then(res => {
+                    console.log(res.data);
+                    // this.todoArray = res.data;
+                })
+                .catch(err => console.log(err));
+        }
     },
     mounted() {
 
-        axios.get('http://localhost/php-todo-list-json/Back/').then((res)=> {
+        axios.get('http://localhost/php-todo-list-json/Back/getTodo.php').then((res)=> {
             this.todoArray = res.data;
 
         })
@@ -23,7 +40,13 @@ export default {
 </script>
 
 <template>
-  <h1> La mia task personale</h1>
+  <h1> La mia task personale: {{ todoArray.length }}</h1>
+
+  <form  @submit.prevent="pushTask">
+    <input type="text" name="task" placeholder="Nuovo task.." v-model="newTask">
+    <input type="submit" value="Invia">
+  </form>
+
   <ul>
     <li v-for="(task, i) in todoArray" :key="i">
         {{ task.task }}
