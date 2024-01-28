@@ -12,15 +12,20 @@ export default {
     methods: {
         pushTask() {
             
-            // console.log("ciao  " + this.newTask);
             const params = {
-                text: this.newTask
+                task: this.newTask
+            };
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             };
 
-            axios.get('http://localhost/php-todo-list-json/Back/pushTask.php', params)
+            axios.post('http://localhost/php-todo-list-json/Back/pushTask.php', params, config)
                 .then(res => {
-                    console.log(res.data);
-                    // this.todoArray = res.data;
+
+                    this.todoArray = res.data;
+    
                 })
                 .catch(err => console.log(err));
         }

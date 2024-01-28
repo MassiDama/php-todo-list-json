@@ -6,7 +6,8 @@
     $jsonTodo = file_get_contents("todos.json");
     $todos = json_decode($jsonTodo, true);
 
-    $task = $_GET['task'];
+    $task =$_POST['task'];
+
     $newTask = [
         'task' => $task,
         'done' => true,
